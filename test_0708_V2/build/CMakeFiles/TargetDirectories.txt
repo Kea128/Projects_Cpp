@@ -1,0 +1,4 @@
+/home/gyk/Projects_Cpp/test_0708_V2/build/CMakeFiles/helloShared.dir
+/home/gyk/Projects_Cpp/test_0708_V2/build/CMakeFiles/helloStatic.dir
+/home/gyk/Projects_Cpp/test_0708_V2/build/CMakeFiles/edit_cache.dir
+/home/gyk/Projects_Cpp/test_0708_V2/build/CMakeFiles/rebuild_cache.dir
