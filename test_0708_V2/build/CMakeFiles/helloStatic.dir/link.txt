@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libhelloStatic.a CMakeFiles/helloStatic.dir/src/hello.cc.o
-/usr/bin/ranlib ../lib/libhelloStatic.a

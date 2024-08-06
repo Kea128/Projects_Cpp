@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -shared -Wl,-soname,libhelloShared.so -o ../lib/libhelloShared.so CMakeFiles/helloShared.dir/src/hello.cc.o 
