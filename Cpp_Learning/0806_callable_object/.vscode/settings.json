@@ -2,6 +2,8 @@
     "makefile.saveBeforeBuildOrConfigure": false,
     "cmake.configureOnEdit": false,
     "files.associations": {
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "random": "cpp"
     }
 }
