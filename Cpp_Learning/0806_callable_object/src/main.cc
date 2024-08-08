@@ -3,6 +3,7 @@
 #include <string>
 
 using namespace std;
+
 /*
 可调用对象定义
   1.是一个函数指针
@@ -71,7 +72,6 @@ class A {
     int result = callback(a, b);  // 调用通过构造函数得到的函数指针
     cout << "类A::notify方法调用函数指针(构造函数传入的可调用对象): " << result
          << endl;
-    cout << callback(a, b) << endl;
   }
 
  private:
@@ -184,28 +184,3 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
-
-cout << "=====" << endl;
-func4(30, 4.14);
-
-cout << "==========" << endl;
-cout << "=====" << endl;
-func4(30, 4.14);
-
-cout << "==========" << endl;
-cout << "=====" << endl;
-func4(30, 4.14);
-
-cout << "==========" << endl;
-cout << "=====" << endl;
-func4(30, 4.14);
-
-cout << "=====" << endl;
-func4(30, 4.14);
-
-cout << "==========" << endl;
-cout << "=====" << endl;
-func4(30, 4.14);
-
-cout << "==========" << endl;
-cout << "==========" << endl;
