@@ -6,12 +6,13 @@ ThreadPool::ThreadPool(int minThreads, int maxThreads)
     : minThreads_(minThreads),
       maxThreads_(maxThreads),
       trigger_(true),
-      idleThreads_(minThreads),
-      curThreads_(minThreads) {
+      idleThreads_(maxThreads),
+      curThreads_(maxThreads) {
+  std::cout << "maxThreads: " << maxThreads_ << std::endl;
   // 创建管理者线程，创建时需要指定任务函数
   manager_ = new std::thread(&ThreadPool::manager, this);
   // 创建工作的线程，创建时需要指定任务函数
-  for (int i = 0; i < minThreads; ++i) {
+  for (int i = 0; i < maxThreads; ++i) {
     // *****以下是vector容器存储线程*****
     /*
         push_back会拷贝t对象，效率低
@@ -34,7 +35,31 @@ ThreadPool::ThreadPool(int minThreads, int maxThreads)
   }
 }
 
-ThreadPool::~ThreadPool() {}
+ThreadPool::~ThreadPool() {
+  trigger_ = false;
+  // 唤醒所有阻塞的线程
+  conditon_.notify_all();
+  // 通过引用的方式遍历线程池中所有线程
+  // 不能auto it : workers_
+  // 因为线程对象不允许拷贝
+  for (auto& it : workers_) {
+    std::thread& t = it.second;
+    // 判断当前线程是否可连接
+    if (t.joinable()) {
+      // 阻塞当前线程，等待子线程t执行完毕？(等待子线程退出任务函数)
+      std::cout << "*****线程: " << t.get_id() << " 已退出*****" << std::endl;
+      t.join();
+    }
+    // 以上只是退出线程的任务函数
+    // 析构workers_中的具体线程会自动在析构ThreadPool对象时完成
+  }
+
+  // 对管理者线程同样进行以上操作
+  if (manager_->joinable()) {
+    manager_->join();
+  }
+  delete manager_;
+}
 
 // addTask()为生产者线程调用的函数，用来向任务队列中添加任务
 void ThreadPool::addTask(std::function<void(void)> task) {
@@ -64,7 +89,7 @@ void ThreadPool::addTask(std::function<void(void)> task) {
 void ThreadPool::manager() {
   while (trigger_.load()) {
     // 休眠3秒，检测线程池线程数量
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     int idle = idleThreads_.load();
     int cur = curThreads_.load();
     // 线程销毁(两个阶段)
@@ -89,9 +114,9 @@ void ThreadPool::manager() {
           // 调用线程对象的join()方法，阻塞当前的manage线程，等待线程对象(*it)里面的任务执行完成
           // 这里其实不会阻塞很长时间，因为(*it)的任务函数已经退出
           // 但是必须调用join()方法释放(*it)线程占用的系统资源
+          std::cout << "=====线程 " << it->first << " 已销毁=====" << std::endl;
           (*it).second.join();
           workers_.erase(it);
-          std::cout << "=====线程 " << it->first << " 已销毁=====" << std::endl;
         }
       }
       // 清空存储已经退出任务函数的线程id的vector容器
@@ -132,9 +157,10 @@ void ThreadPool::worker() {
         // 1. 唤醒阻塞在条件变量conditon_上的工作线程
         if (exitThreads_.load() > 0) {
           curThreads_--;
+          idleThreads_--;
           exitThreads_--;
-          std::cout << "-----线程退出, ID: %d-----"
-                    << std::this_thread::get_id() << std::endl;
+          std::cout << "-----线程退出, ID: " << std::this_thread::get_id()
+                    << " -----" << std::endl;
 
           // 某个线程退出后，将对应id存储在 workers_ids_ 中,
           // 然后再在管理者线程中删除对应id的线程对象
@@ -148,6 +174,7 @@ void ThreadPool::worker() {
       }
       // 跳出以上while循环，说明任务队列不为空，需要取任务
       if (!tasks_.empty()) {
+        std::cout << "取出了一个任务..." << std::endl;
         // task = tasks_.front(); 会拷贝队头元素，效率低
         // std::move()方法进行资源转移，tasks_.front()为匿名对象
         // 把匿名对象的资源转移到另一个对象中

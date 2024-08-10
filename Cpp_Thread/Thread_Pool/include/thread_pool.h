@@ -32,7 +32,7 @@
 namespace my_thread_pool {
 class ThreadPool {
  public:
-  ThreadPool(int minThreads = 2,
+  ThreadPool(int minThreads = 1,
              int maxThreads = std::thread::hardware_concurrency());
   ~ThreadPool();
 

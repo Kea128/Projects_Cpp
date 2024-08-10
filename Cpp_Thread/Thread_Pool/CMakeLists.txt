@@ -15,16 +15,19 @@ file(GLOB_RECURSE SRC_LIB_LIST ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc)
 # 除去main.cc
 list(REMOVE_ITEM SRC_LIB_LIST ${CMAKE_CURRENT_SOURCE_DIR}/src/node_main.cc)
 
+# 制作静态库
 add_library(src_lib ${SRC_LIB_LIST})
 
 # 添加可执行文件
 add_executable(node_main src/node_main.cc)
 
+# 链接静态库
 target_link_libraries(node_main src_lib)
 
 # 链接 pthread 库
-find_package(Threads REQUIRED)
-target_link_libraries(node_main Threads::Threads)
+# find_package(Threads REQUIRED)
+
+# target_link_libraries(node_main Threads::Threads)
 
 # 可执行文件存放位置
 # set(EXECUTABLE_OUTPUT_PATH ../bin) #这个也可以，因为make时在build目录下，需要..
