@@ -25,9 +25,9 @@ add_executable(node_main src/node_main.cc)
 target_link_libraries(node_main src_lib)
 
 # 链接 pthread 库
-# find_package(Threads REQUIRED)
+find_package(Threads REQUIRED)
 
-# target_link_libraries(node_main Threads::Threads)
+target_link_libraries(node_main Threads::Threads)
 
 # 可执行文件存放位置
 # set(EXECUTABLE_OUTPUT_PATH ../bin) #这个也可以，因为make时在build目录下，需要..

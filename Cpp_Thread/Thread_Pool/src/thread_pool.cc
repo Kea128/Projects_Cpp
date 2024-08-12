@@ -6,13 +6,13 @@ ThreadPool::ThreadPool(int minThreads, int maxThreads)
     : minThreads_(minThreads),
       maxThreads_(maxThreads),
       trigger_(true),
-      idleThreads_(maxThreads),
-      curThreads_(maxThreads) {
+      idleThreads_(minThreads),
+      curThreads_(minThreads) {
   std::cout << "maxThreads: " << maxThreads_ << std::endl;
   // 创建管理者线程，创建时需要指定任务函数
   manager_ = new std::thread(&ThreadPool::manager, this);
   // 创建工作的线程，创建时需要指定任务函数
-  for (int i = 0; i < maxThreads; ++i) {
+  for (int i = 0; i < minThreads; ++i) {
     // *****以下是vector容器存储线程*****
     /*
         push_back会拷贝t对象，效率低
