@@ -97,7 +97,17 @@ class LaserWeapon : public Weapon {
  */
 class Ship {
  public:
-  Ship();
+  Ship(ShipBody* body, Engine* engine, Weapon* weapon)
+      : body_(body), engine_(engine), weapon_(weapon) {}
+  ~Ship() {
+    delete body_;
+    delete engine_;
+    delete weapon_;
+  }
+
+  std::string getProperty() {
+    return body_->getBody() + engine_->getEngine() + weapon_->getWeapon();
+  }
 
  private:
   ShipBody* body_;
@@ -105,4 +115,49 @@ class Ship {
   Weapon* weapon_;
 };
 
-int main(int argc, char* argv[]) { return 0; }
+/**
+ * 工厂类 - 抽象
+ */
+class AbstractFactory {
+ public:
+  virtual Ship* createShip() = 0;
+  virtual ~AbstractFactory() {}
+};
+
+class BasicFactory : public AbstractFactory {
+ public:
+  Ship* createShip() override {
+    Ship* ship = new Ship(new WoodBody(), new HumanEngine(), new GunWeapon());
+    std::cout << "制造基础型号" << std::endl;
+    return ship;
+  }
+};
+
+class StandardFactory : public AbstractFactory {
+ public:
+  Ship* createShip() override {
+    Ship* ship =
+        new Ship(new IronBody(), new DieselEngine(), new CannonWeapon());
+    std::cout << "制造标准型号" << std::endl;
+    return ship;
+  }
+};
+
+class AdvancedFactory : public AbstractFactory {
+ public:
+  Ship* createShip() override {
+    Ship* ship =
+        new Ship(new MetalBody(), new NuclearEngine(), new LaserWeapon());
+    std::cout << "制造高级型号" << std::endl;
+    return ship;
+  }
+};
+
+int main(int argc, char* argv[]) {
+  AbstractFactory* factory = new AdvancedFactory;
+  Ship* ship = factory->createShip();
+  std::cout << ship->getProperty() << std::endl;
+  delete ship;
+  delete factory;
+  return 0;
+}
