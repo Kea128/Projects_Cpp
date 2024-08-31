@@ -5,6 +5,8 @@ project(0806_callable_object)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CMAKE_BUILD_TYPE DEBUG)
+
 # 包含头文件路径
 # ${CMAKE_CURRENT_SOURCE_DIR}表示CMakeLists所在的路径，和${PROJECT_SOURCE_DIR}一致
 include_directories(${PROJECT_SOURCE_DIR}/include)

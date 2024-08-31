@@ -14,15 +14,19 @@ struct ListNode {
 };
 
 ListNode* removeElements(ListNode* head, int val) {
-  ListNode* dummyHead = new ListNode(0);
-  dummyHead->next_ = head;
-  ListNode* cur = dummyHead;
+  ListNode* dummyHead = new ListNode(0);  // 虚拟头结点
+  dummyHead->next_ = head;    // 虚拟头结点指向链表首个节点
+  ListNode* cur = dummyHead;  // cur指向虚拟头结点
+  // 若cur的下一个节点不为空，则循环
   while (cur->next_ != nullptr) {
+    // 若cur的下一个节点的值等于val，则删除cur的下一个节点，cur指向下下个节点
     if (cur->next_->val_ == val) {
       ListNode* tmp = cur->next_->next_;
       delete cur->next_;
       cur->next_ = tmp;
-    } else {
+    }
+    // 否则，cur指向下一个节点
+    else {
       cur = cur->next_;
     }
   }
@@ -33,14 +37,13 @@ ListNode* removeElements(ListNode* head, int val) {
 
 int main() {
   std::vector<int> numbers;
-  int num;
+  int num, delete_num;
   while (true) {
     std::cin >> num;
     numbers.push_back(num);
     if (getchar() == '\n') break;
   }
-  int delNum;
-  std::cin >> delNum;
+  std::cin >> delete_num;
 
   // 根据输入构建链表
   ListNode* head = new ListNode(numbers[0]);
@@ -51,7 +54,7 @@ int main() {
   }
   // std::cout << std::endl;
 
-  std::cout << "输出链表的值" << std::endl;
+  // 输出链表的值
   cur = head;
   while (cur != nullptr) {
     std::cout << cur->val_ << " ";
@@ -59,9 +62,7 @@ int main() {
   }
   std::cout << std::endl;
 
-  head = removeElements(head, 2);
-
-  std::cout << "输出删除后链表的值" << std::endl;
+  head = removeElements(head, delete_num);
   cur = head;
   while (cur != nullptr) {
     std::cout << cur->val_ << " ";
