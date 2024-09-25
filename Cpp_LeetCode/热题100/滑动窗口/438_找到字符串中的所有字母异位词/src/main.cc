@@ -55,13 +55,13 @@ std::vector<int> findAnagrams_V2(std::string s, std::string p) {
     mp[ele]++;
   }
 
-  for (int right = n; right <= s.size(); right++) {
+  for (int right = n - 1; right < s.size(); right++) {
     std::unordered_map<char, int> window;
-    for (int left = right - n; left < right; left++) {
+    for (int left = right - n + 1; left <= right; left++) {
       window[s[left]]++;
     }
     if (mp == window) {
-      res.emplace_back(right - n);
+      res.emplace_back(right - n + 1);
     }
   }
   return res;
