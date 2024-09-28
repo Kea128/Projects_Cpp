@@ -12,12 +12,21 @@
  */
 
 int maxSubArray(std::vector<int>& nums) {
-  int windowSum = 0;
-  int left = 0;
-  int right = 0;
-  for (; right < nums.size(); right++) {
-    windowSum += nums[right];
+  // 动态规划
+  std::vector<int> dp(nums.size(), 0);
+  // dp[i]表示以nums[i]结尾的最大子数组和（num[left - i]）
+  // dp初始化
+  dp[0] = nums[0];
+  for (int i = 1; i < nums.size(); i++) {
+    dp[i] = dp[i - 1] < 0 ? nums[i] : dp[i - 1] + nums[i];
   }
+  int max = dp[0];
+  for (auto& ele : dp) {
+    // std::cout << ele << " ";
+    max = std::max(max, ele);
+  }
+  // std::cout << std::endl;
+  return max;
 }
 
 int main() {
@@ -28,4 +37,3 @@ int main() {
   }
   std::cout << maxSubArray(nums) << std::endl;
 }
-s
