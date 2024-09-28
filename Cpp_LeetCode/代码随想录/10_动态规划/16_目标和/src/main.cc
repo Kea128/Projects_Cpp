@@ -39,8 +39,25 @@ int findTargetSumWays(vector<int>& nums, int target) {
   for (auto& i : nums) {
     sum += i;
   }
-
-  if () }
+  // left + right = sum;
+  // left - right = target;
+  // left = (sum + target) / 2;
+  if ((sum + target) % 2 != 0) return 0;
+  if (std::abs(target) > sum) return 0;
+  int left = (sum + target) / 2;
+  std::vector<int> dp(left + 1, 0);
+  // 初始化dp
+  dp[0] = 1;
+  for (int i = 0; i < nums.size(); i++) {
+    for (int j = left; j >= 0; j--) {
+      if (j >= nums[i])
+        dp[j] = dp[j] + dp[j - nums[i]];
+      else
+        dp[j] = dp[j];
+    }
+  }
+  return dp[left];
+}
 
 int main(int argc, char const* argv[]) {
   int target;
