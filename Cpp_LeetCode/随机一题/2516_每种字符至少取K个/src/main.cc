@@ -12,7 +12,7 @@ using namespace std;
 int takeCharacters(string s, int k) {
   int res = s.size();
   int len = s.size();
-  std::unordered_map<char, int> mp;
+  std::unordered_map<char, int> mp = {{'a', 0}, {'b', 0}, {'c', 0}};
   for (int i = 0; i < s.size(); i++) {
     mp[s[i]]++;
   }
