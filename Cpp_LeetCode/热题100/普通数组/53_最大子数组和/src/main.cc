@@ -11,7 +11,14 @@
  * https://leetcode.cn/problems/maximum-subarray/description/?envType=study-plan-v2&envId=top-100-liked
  */
 
-int maxSubArray(std::vector<int>& nums) {}
+int maxSubArray(std::vector<int>& nums) {
+  int windowSum = 0;
+  int left = 0;
+  int right = 0;
+  for (; right < nums.size(); right++) {
+    windowSum += nums[right];
+  }
+}
 
 int main() {
   int n;
@@ -19,9 +26,6 @@ int main() {
   while (std::cin >> n) {
     nums.emplace_back(n);
   }
-
-  for (int i = 0; i < nums.size(); i++) {
-    std::cout << nums[i] << " ";
-  }
-  std::cout << std::endl;
+  std::cout << maxSubArray(nums) << std::endl;
 }
+s
