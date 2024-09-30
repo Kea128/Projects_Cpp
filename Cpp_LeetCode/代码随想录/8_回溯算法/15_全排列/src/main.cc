@@ -15,16 +15,28 @@ using namespace std;
 std::vector<int> path;
 std::vector<std::vector<int>> res;
 
-void backtracking(std::vector<int>& nums, int startIndex) {
+void backtracking(std::vector<int>& nums, std::vector<bool>& used) {
   if (path.size() == nums.size()) {
     res.emplace_back(path);
     return;
   }
   for (int i = 0; i < nums.size(); i++) {
+    if (used[i]) continue;
+    path.emplace_back(nums[i]);
+    used[i] = true;
+    backtracking(nums, used);
+    used[i] = false;
+    path.pop_back();
   }
 }
 
-vector<vector<int>> permute(vector<int>& nums) {}
+vector<vector<int>> permute(vector<int>& nums) {
+  std::vector<bool> used(nums.size(), 0);
+  path.clear();
+  res.clear();
+  backtracking(nums, used);
+  return res;
+}
 
 int main() {
   int n;
@@ -38,6 +50,6 @@ int main() {
     for (auto& j : i) {
       std::cout << j << " ";
     }
+    std::cout << std::endl;
   }
-  std::cout << std::endl;
 }
