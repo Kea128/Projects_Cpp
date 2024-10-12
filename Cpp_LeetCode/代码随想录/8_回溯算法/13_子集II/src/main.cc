@@ -8,13 +8,18 @@
 using namespace std;
 
 /**
+<<<<<<< Updated upstream
  * @brief 90_子集II
+=======
+ * @brief 78_子集
+>>>>>>> Stashed changes
  * https://leetcode.cn/problems/subsets/description/
  */
 
 std::vector<int> path;
 std::vector<std::vector<int>> res;
 
+<<<<<<< Updated upstream
 // 先排序
 void backtracking(std::vector<int>& nums, std::vector<bool>& visited,
                   int startIndex) {
@@ -38,6 +43,14 @@ vector<vector<int>> subsetsWithDup(vector<int>& nums) {
   res.clear();
   std::vector<bool> visited(nums.size(), false);
   backtracking(nums, visited, 0);
+=======
+void backtracking(std::vector<int>& nums, int startIndex) {}
+
+vector<vector<int>> subsets(vector<int>& nums) {
+  path.clear();
+  res.clear();
+  backtracking(nums, 0);
+>>>>>>> Stashed changes
   return res;
 }
 
@@ -48,7 +61,11 @@ int main() {
     nums.emplace_back(n);
   }
 
+<<<<<<< Updated upstream
   auto ans = subsetsWithDup(nums);
+=======
+  auto ans = subsets(nums);
+>>>>>>> Stashed changes
   for (auto& i : ans) {
     for (auto& j : i) {
       std::cout << j << " ";

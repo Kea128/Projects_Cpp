@@ -15,12 +15,17 @@ using namespace std;
 std::vector<int> path;
 std::vector<std::vector<int>> res;
 
+<<<<<<< Updated upstream
 void backtracking(std::vector<int>& nums, std::vector<bool>& used) {
+=======
+void backtracking(std::vector<int>& nums, int startIndex) {
+>>>>>>> Stashed changes
   if (path.size() == nums.size()) {
     res.emplace_back(path);
     return;
   }
   for (int i = 0; i < nums.size(); i++) {
+<<<<<<< Updated upstream
     if (used[i]) continue;
     path.emplace_back(nums[i]);
     used[i] = true;
@@ -37,6 +42,12 @@ vector<vector<int>> permute(vector<int>& nums) {
   backtracking(nums, used);
   return res;
 }
+=======
+  }
+}
+
+vector<vector<int>> permute(vector<int>& nums) {}
+>>>>>>> Stashed changes
 
 int main() {
   int n;
@@ -50,6 +61,11 @@ int main() {
     for (auto& j : i) {
       std::cout << j << " ";
     }
+<<<<<<< Updated upstream
     std::cout << std::endl;
   }
+=======
+  }
+  std::cout << std::endl;
+>>>>>>> Stashed changes
 }
