@@ -6,8 +6,8 @@
 using namespace std;
 
 /**
- * @brief 121_买卖股票的最佳时机
- * https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/description/
+ * @brief 122_买卖股票的最佳时机II
+ * https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/description/
  */
 
 int maxProfit(vector<int>& prices) {
@@ -22,8 +22,8 @@ int maxProfit(vector<int>& prices) {
 
   for (int i = 1; i < prices.size(); i++) {
     // 第i天持有股票的最大收益 = 【第i-1天持有股票的最大收益】 和
-    // 【第i天首次买入的收益】二者的最大值
-    dp[i][0] = std::max(dp[i - 1][0], -prices[i]);
+    // 【第i天才买入的收益】二者的最大值
+    dp[i][0] = std::max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
 
     // 第i天不持有股票的最大收益 = 【第i-1天不持有股票的最大收益】 和
     // 【第i天才卖出的收益】二者的最大值
