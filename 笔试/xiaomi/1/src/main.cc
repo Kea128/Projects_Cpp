@@ -51,7 +51,6 @@ int main() {
   while (T--) {
     vector<int> remaining;
     for (int i = 1; i <= SIZE; i++) remaining.push_back(i);  // 1到9的数字
-
     // 初始化棋盘并移除已填数字
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < N; j++) {
